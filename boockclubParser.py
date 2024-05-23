@@ -7,7 +7,7 @@ def get_data(url):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
     }
     # робимо запит на сайт
-    req = requests.get(url, headers=headers)
+    # req = requests.get(url, headers=headers)
 
     # зберігаємо html сторінку локально
     # with open('data/bookclub/bookclub.html', 'w') as file:
@@ -47,47 +47,75 @@ def get_data(url):
         book_data = soup.find('div', class_='prd-attributes')
         
         # знаходимо назву книжки
-        book_name = book_data.find('div', class_='prd-attr-descr', itemprop='name')
-        book_name = book_name.text.strip()
+        try:                                                                                    # блоки try/except будуть надавати значення None привідсутності даних
+            book_name = book_data.find('div', class_='prd-attr-descr', itemprop='name')
+            book_name = book_name.text.strip()
+        except Exception:
+            book_name = None
 
         # знаходимо автора книги
-        book_author = book_data.find('div', class_='prd-attr-name', string="Автор ").find_next_sibling('div', class_='prd-attr-descr')
-        book_author =book_author.text.strip()
-      
+        try:
+            book_author = book_data.find('div', class_='prd-attr-name', string="Автор ").find_next_sibling('div', class_='prd-attr-descr')
+            book_author =book_author.text.strip()
+        except Exception:
+            book_author = None
+        
         # знаходимо мову на якій написана книжка
-        book_language = book_data.find('div', class_='prd-attr-name', string='Мова ').find_next_sibling('div', class_='prd-attr-descr')
-        book_language = book_language.text.strip()
+        try:
+            book_language = book_data.find('div', class_='prd-attr-name', string='Мова ').find_next_sibling('div', class_='prd-attr-descr')
+            book_language = book_language.text.strip()
+        except Exception:
+            book_language = None
         
         # оригінальна назва книжки
-        book_original_name = book_data.find('div', class_='prd-attr-name', string='Оригінальна назва ').find_next_sibling('div', class_='prd-attr-descr')
-        book_original_name = book_original_name.text.strip()
-        
+        try:
+            book_original_name = book_data.find('div', class_='prd-attr-name', string='Оригінальна назва ').find_next_sibling('div', class_='prd-attr-descr')
+            book_original_name = book_original_name.text.strip()
+        except Exception:
+            book_original_name = None
+
         # оригнальна мова
-        book_original_language = book_data.find('div', class_='prd-attr-name', string='Мова оригіналу ').find_next_sibling('div', class_='prd-attr-descr')
-        book_original_language = book_original_language.text.strip()
+        try:
+            book_original_language = book_data.find('div', class_='prd-attr-name', string='Мова оригіналу ').find_next_sibling('div', class_='prd-attr-descr')
+            book_original_language = book_original_language.text.strip()
+        except Exception:
+            book_original_language = None
 
         # знаходимо видавництво книжки
-        book_publisher = book_data.find('div', class_='prd-attr-name', string='Видавництво ').find_next_sibling('div', class_='prd-attr-descr')
-        book_publisher = book_publisher.text.strip()
+        try:
+            book_publisher = book_data.find('div', class_='prd-attr-name', string='Видавництво ').find_next_sibling('div', class_='prd-attr-descr')
+            book_publisher = book_publisher.text.strip()
+        except Exception:
+            book_publisher = None
 
         # знаходимо перекладача(ів) книжки
-        translator = book_data.find('div', class_='prd-attr-name', string='Перекладач(і) ').find_next_sibling('div', class_='prd-attr-descr')
-        translator = translator.text.strip()
-
+        try:
+            translator = book_data.find('div', class_='prd-attr-name', string='Перекладач(і) ').find_next_sibling('div', class_='prd-attr-descr')
+            translator = translator.text.strip()
+        except Exception:
+            translator = None
+        
         # рік видання книжки
-        pub_year = book_data.find('div', class_='prd-attr-name', string='Рік видання ').find_next_sibling('div', class_='prd-attr-descr')
-        pub_year = pub_year.text.strip()
-        print(pub_year)
+        try:
+            pub_year = book_data.find('div', class_='prd-attr-name', string='Рік видання ').find_next_sibling('div', class_='prd-attr-descr')
+            pub_year = pub_year.text.strip()
+        except Exception:
+            pub_year = None
 
         # ISBN
-        isbn = book_data.find('div', class_='prd-attr-name', string='ISBN ').find_next_sibling('div', class_='prd-attr-descr')
-        isbn = isbn.text.strip()
-        print(isbn)
-
+        try:
+            isbn = book_data.find('div', class_='prd-attr-name', string='ISBN ').find_next_sibling('div', class_='prd-attr-descr')
+            isbn = isbn.text.strip()
+        except Exception:
+            isbn = None
+        
         # жанр книжки
-        book_genre = book_data.find('div', class_='prd-attr-name', string='Розділ:  ').find_next_sibling('div', class_='prd-attr-descr').a
-        book_genre = book_genre.text.strip()
-        print(book_genre)
+        try:
+            book_genre = book_data.find('div', class_='prd-attr-name', string='Розділ:  ').find_next_sibling('div', class_='prd-attr-descr').a
+            book_genre = book_genre.text.strip()
+        except Exception:
+            book_genre = None
 
+        # print(book_name, book_author, book_language, book_original_language, book_original_name, book_publisher, isbn, book_genre)
 
 get_data('https://bookclub.ua/catalog/books/hudojnya-literatura/?listmode=2')
