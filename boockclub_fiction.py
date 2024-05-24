@@ -1,3 +1,5 @@
+import random
+import time
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -9,15 +11,15 @@ def get_data(url):
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
     }
-#     # робимо запит на сайт
-#     req = requests.get(url, headers=headers)
+    # робимо запит на сайт
+    req = requests.get(url, headers=headers)
 
-# #    зберігаємо html сторінку локально
-#     with open('data/bookclub/fiction_book/main/bookclub.html', 'w') as file:
-#         file.write(req.text)
+#    зберігаємо html сторінку локально
+    with open('data/bookclub/fiction_books/main/bookclub.html', 'w') as file:
+        file.write(req.text)
 
     # відкриваємо локальний файл html, щоб зробити меншу нагрузку на сайт
-    with open('data/bookclub/fiction_book/main/bookclub.html') as file:
+    with open('data/bookclub/fiction_books/main/bookclub.html') as file:
         src = file.read()
     
     # створюємо обьєкт soup 
@@ -29,7 +31,7 @@ def get_data(url):
   
     project_urls = []         # створюємо список з url
     for article in articles:
-        project_url = "https://bookclub.ua/" + article.find('div', class_='book-inlist-name').find('a').get('href')
+        project_url = "https://bookclub.ua" + article.find('div', class_='book-inlist-name').find('a').get('href')
         project_urls.append(project_url)
     
     
@@ -126,6 +128,7 @@ def get_data(url):
                 'Імʼя автора': book_author,
                 'Назва книги': book_name,
                 'Мова': book_language,
+                'Перекладач': translator,
                 'Мова оригіналу': book_original_language,
                 'Оригінальна назва': book_original_name,
                 'Назва видавця': book_publisher,
@@ -135,9 +138,10 @@ def get_data(url):
             }
         )
     # print(book_data_list)
+    time.sleep(random.randrange(2, 4))
 
     # зберігаємо список в json файлі
-    with open('data/bookclub/fiction_book/main/book_data.json', 'a', encoding='utf-8') as file:
+    with open('data/bookclub/fiction_books/main/bookclub_fiction.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
     print('Done!')
 
@@ -145,7 +149,7 @@ base_url = 'https://bookclub.ua/catalog/books/hudojnya-literatura/?i='
 listmode = '&listmode=2'
 start_value = 0
 step = 20
-max_attempts = 10000  # максимальна кількість ітерацій
+max_attempts = 1000  # максимальна кількість ітерацій
 
 for attempt in range(max_attempts):
     try:
@@ -155,6 +159,6 @@ for attempt in range(max_attempts):
         data = get_data(url)
         # Обробка отриманих даних
         # Наприклад, можна зберегти або обробити data
-    except current_value == 540:
+    except current_value == 1440:
         print('!!!!!END!!!!!')
         break  # перервати цикл у випадку помилки

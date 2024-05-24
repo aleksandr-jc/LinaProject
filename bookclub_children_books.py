@@ -127,6 +127,7 @@ def get_data(url):
                 'Імʼя автора': book_author,
                 'Назва книги': book_name,
                 'Мова': book_language,
+                'Перекладач': translator,
                 'Мова оригіналу': book_original_language,
                 'Оригінальна назва': book_original_name,
                 'Назва видавця': book_publisher,

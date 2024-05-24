@@ -3,8 +3,8 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import json
+ 
 
-# TODO змінити ссилки на non_fiction books
 """
 Витягуємо інформацію про книжки з сайту bookclub.ua зберігаємо в json файлі.
 """
@@ -129,6 +129,7 @@ def get_data(url):
                 'Імʼя автора': book_author,
                 'Назва книги': book_name,
                 'Мова': book_language,
+                'Перекладач': translator,
                 'Мова оригіналу': book_original_language,
                 'Оригінальна назва': book_original_name,
                 'Назва видавця': book_publisher,
@@ -144,7 +145,7 @@ def get_data(url):
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
     print('Done!')
 
-base_url = 'https://bookclub.ua/catalog/books/prikladn/?i='
+base_url = 'https://bookclub.ua/catalog/books/prikladni/?i='
 listmode = '&listmode=2'
 start_value = 0
 step = 20

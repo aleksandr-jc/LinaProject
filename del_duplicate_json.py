@@ -18,4 +18,4 @@ def remove_duplicates(input_file, output_file):
         json.dump(unique_data, file, ensure_ascii=False, indent=4)
 
 # Використання функції
-remove_duplicates('data/bookclub/children_books/main/bookclub_children_books.json', 'data/bookclub/children_books/main/bookclub_children_books.json')
+remove_duplicates('data/bookclub/non_fiction_books/main/bookclub_non_fiction.json', 'data/bookclub/non_fiction_books/main/bookclub_non_fiction.json')
