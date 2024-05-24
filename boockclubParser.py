@@ -8,14 +8,14 @@ def get_data(url):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
     }
     # робимо запит на сайт
-    # req = requests.get(url, headers=headers)
+    req = requests.get(url, headers=headers)
 
-    # зберігаємо html сторінку локально
-    # with open('data/bookclub/bookclub.html', 'w') as file:
-    #     file.write(req.text)
+#    зберігаємо html сторінку локально
+    with open('data/bookclub/bookclub.html', 'w') as file:
+        file.write(req.text)
 
     # відкриваємо локальний файл html, щоб зробити меншу нагрузку на сайт
-    with open('data/bookclub.html') as file:
+    with open('data/bookclub/bookclub.html') as file:
         src = file.read()
     
     # створюємо обьєкт soup 
@@ -29,7 +29,8 @@ def get_data(url):
     for article in articles:
         project_url = "https://bookclub.ua/" + article.find('div', class_='book-inlist-name').find('a').get('href')
         project_urls.append(project_url)
-       
+    
+    
     # стоврюємо цикл щоб пройтись по кожному url
     book_data_list = []
     for project_url in project_urls:                   # зробимо зріз на одну книгу
@@ -136,5 +137,22 @@ def get_data(url):
     # зберігаємо список в json файлі
     with open('data/bookclub/book_data.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
+    print('Done!')
 
-get_data('https://bookclub.ua/catalog/books/hudojnya-literatura/?listmode=2')
+base_url = 'https://bookclub.ua/catalog/books/hudojnya-literatura/?i='
+listmode = '&listmode=2'
+start_value = 0
+step = 20
+max_attempts = 10000  # максимальна кількість ітерацій
+
+for attempt in range(max_attempts):
+    try:
+        current_value = start_value + attempt * step
+        url = f"{base_url}{current_value}{listmode}"
+        print(f"Fetching data from: {url}")
+        data = get_data(url)
+        # Обробка отриманих даних
+        # Наприклад, можна зберегти або обробити data
+    except current_value == 540:
+        print('!!!!!END!!!!!')
+        break  # перервати цикл у випадку помилки
