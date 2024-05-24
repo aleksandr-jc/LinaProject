@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import json
 
 def get_data(url):
     headers = {
@@ -23,14 +24,15 @@ def get_data(url):
     # знаходимо блок html коду з потрібною нам інформацією
     articles = soup.find_all('section', class_='book-inlist')
 
-    # створюємо список з url
-    project_urls = []
+  
+    project_urls = []         # створюємо список з url
     for article in articles:
         project_url = "https://bookclub.ua/" + article.find('div', class_='book-inlist-name').find('a').get('href')
         project_urls.append(project_url)
        
     # стоврюємо цикл щоб пройтись по кожному url
-    for project_url in project_urls[0:1]:                   # зробимо зріз на одну книгу
+    book_data_list = []
+    for project_url in project_urls:                   # зробимо зріз на одну книгу
         # робимо запит по кожному url 
         req = requests.get(project_url, headers=headers)
         # беремо назву з url
@@ -116,6 +118,23 @@ def get_data(url):
         except Exception:
             book_genre = None
 
-        # print(book_name, book_author, book_language, book_original_language, book_original_name, book_publisher, isbn, book_genre)
+        book_data_list.append(
+            {
+                'Імʼя автора': book_author,
+                'Назва книги': book_name,
+                'Мова': book_language,
+                'Мова оригіналу': book_original_language,
+                'Оригінальна назва': book_original_name,
+                'Назва видавця': book_publisher,
+                'Рік видання': pub_year,
+                'ISBN': isbn,
+                'Жанр книги': book_genre,
+            }
+        )
+    # print(book_data_list)
+
+    # зберігаємо список в json файлі
+    with open('data/bookclub/book_data.json', 'a', encoding='utf-8') as file:
+        json.dump(book_data_list, file, indent=4, ensure_ascii=False)
 
 get_data('https://bookclub.ua/catalog/books/hudojnya-literatura/?listmode=2')
