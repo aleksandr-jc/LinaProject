@@ -16,4 +16,4 @@ def replace_in_json_file(input_file):
         file.write(new_content)
 
 # Використання функції
-replace_in_json_file('data/bookclub/fiction_books/main/book_data.json')
+replace_in_json_file('data/bookclub/non_fiction_books/main/bookclub_non_fiction.json')
