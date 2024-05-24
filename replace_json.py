@@ -1,3 +1,8 @@
+"""
+Замінюємо '][' , ',' і переписуємо json файл
+"""
+
+
 def replace_in_json_file(input_file):
     # Відкриття файлу JSON для заміни
     with open(input_file, 'r', encoding='utf-8') as file:

@@ -1,21 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-
+"""
+Витягуємо інформацію про книжки з сайту bookclub.ua зберігаємо в json файлі.
+"""
 def get_data(url):
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
     }
-    # робимо запит на сайт
-    req = requests.get(url, headers=headers)
+#     # робимо запит на сайт
+#     req = requests.get(url, headers=headers)
 
-#    зберігаємо html сторінку локально
-    with open('data/bookclub/bookclub.html', 'w') as file:
-        file.write(req.text)
+# #    зберігаємо html сторінку локально
+#     with open('data/bookclub/fiction_book/main/bookclub.html', 'w') as file:
+#         file.write(req.text)
 
     # відкриваємо локальний файл html, щоб зробити меншу нагрузку на сайт
-    with open('data/bookclub/bookclub.html') as file:
+    with open('data/bookclub/fiction_book/main/bookclub.html') as file:
         src = file.read()
     
     # створюємо обьєкт soup 
@@ -39,10 +41,10 @@ def get_data(url):
         # беремо назву з url
         project_name = project_url.split("/")[-1]
 
-        with open(f'data/bookclub/{project_name}.html', 'w') as file:
+        with open(f'data/bookclub/fiction_books/data/{project_name}.html', 'w') as file:
             file.write(req.text)
 
-        with open(f'data/bookclub/{project_name}.html') as file:
+        with open(f'data/bookclub/fiction_books/data/{project_name}.html') as file:
             src = file.read()
 
         soup = BeautifulSoup(src, 'lxml')
@@ -135,7 +137,7 @@ def get_data(url):
     # print(book_data_list)
 
     # зберігаємо список в json файлі
-    with open('data/bookclub/book_data.json', 'a', encoding='utf-8') as file:
+    with open('data/bookclub/fiction_book/main/book_data.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
     print('Done!')
 

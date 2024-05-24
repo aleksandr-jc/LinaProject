@@ -1,5 +1,9 @@
 import json
 
+"""
+Видаляємо дуплікати в json файлі
+"""
+
 def remove_duplicates(input_file, output_file):
     # Завантажуємо дані з файлу JSON
     with open(input_file, 'r', encoding='utf-8') as file:
