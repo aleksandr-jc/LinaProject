@@ -26,4 +26,4 @@ def json_to_excel(input_file, output_file):
     df.to_excel(output_file, index=False, engine='openpyxl')
 
 # Використання функції
-json_to_excel('data/bookclub/non_fiction_books/main/bookclub_non_fiction1.json', 'data/bookclub_data_non_fiction1.xlsx')
+json_to_excel('data/bookclub/children_books/main/bookclub_children_books.json', 'data/bookclub_data_children_books.xlsx')
