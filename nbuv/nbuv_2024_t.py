@@ -19,6 +19,7 @@ def get_source_html(url):
     
     try:
         driver.get(url=url)
+        time.sleep(5)
                 # Вибір опції "Рік видання" в селекторі
         search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
         search_type_select.select_by_value("G=")
@@ -55,9 +56,10 @@ def get_source_html(url):
 def book_info_parc(book):
 # форматуємо інформацію для кращого зчитання
     lines = book.split('\n')
-    info = lines[2]
     info_name = lines[1].replace(',', ' ').replace('.', ' ')
-
+    info = lines[2]
+    
+    # print(info)
 # Вибираємо потрібну інформацію за допомогою регулярних виразів
     author = info_name[-1] + info_name[:-1]  # ім'я автора    
     title = re.search(r'(.*?)(?=\[Текст\])', info).group()  # назва книги
@@ -67,10 +69,10 @@ def book_info_parc(book):
     isbn = re.search(r"ISBN\s(\d+-\d+-\d+-\d+?-\d?)", info).group(1)  # ISBN
    
   # Пошук перекладача
-    translator_match = re.search(r'пер\.\s*(.*?)\s*;', info)
-    translator = ""
+    translator_match = re.search(r"; (.*?) пер\. (.*?) ;", info)
+    translator = ''
     if translator_match:
-        translator = translator_match.group(1)
+        translator = translator_match.group()
 
     # Друкуємо отримані дані
     # print("Ім'я автора:", author.strip())
@@ -79,7 +81,7 @@ def book_info_parc(book):
     # print("Рік видачі:", year.strip())
     # print("Кількість примірників:", copies.strip())
     # print("ISBN:", isbn.strip())
-    print("Перекладач:", translator)
+    print("Перекладач:", translator.replace(';', ' ').strip())
 
 def main():
     get_source_html(url='http://www.irbis-nbuv.gov.ua/cgi-bin/irbis_nbuv/cgiirbis_64.exe?C21COM=F&I21DBN=EC&P21DBN=EC&S21CNR=20&Z21ID=')

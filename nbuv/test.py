@@ -18,10 +18,10 @@ def book_info_parc(book):
     isbn = re.search(r"ISBN\s(\d+-\d+-\d+-\d+?-\d?)", info).group(1)  # ISBN
    
   # Пошук перекладача
-    translator_match = re.search(r'пер\.\s*(.*?)\s*;', info)
+    translator_match = re.search(r"; (.*?) пер\. (.*?) ;", info)
     translator = ""
     if translator_match:
-        translator = translator_match.group(1)
+        translator = translator_match.group()
 
 
     # Друкуємо отримані дані
@@ -31,7 +31,7 @@ def book_info_parc(book):
     print("Рік видачі:", year.strip())
     print("Кількість примірників:", copies.strip())
     print("ISBN:", isbn.strip())
-    print("Перекладач:", translator)
+    print("Перекладач:", translator.replace(';', ' ').strip())
 
 
 def main():
