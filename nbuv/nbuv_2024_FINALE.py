@@ -75,22 +75,6 @@ def get_source_html(url):
     for book in book_info:
         book_info_parc(book)
 
-def extract_translators(info):
-    # Регулярний вираз для пошуку інформації про перекладача
-    translator_pattern = re.compile(r'\[пер\.\s*(з\s*[а-яіїєґ]+\.\s*|із\s*[а-яіїєґ]+\.\s*)?(.*?)\s*\]')
-    
-    # Пошук всіх збігів у тексті
-    translators = translator_pattern.findall(info)
-        
-        # Витягування мови з якої переклали
-    # source_language = [translator[0].strip() for translator in translators]
-
-        # Витягування імен перекладачів
-    translator_names = [translator[1].strip() for translator in translators]
-    
-    
-    return translator_names
-
 def book_info_parc(book):
     # Форматуємо інформацію для кращого зчитання
     lines = book.split('\n')
@@ -100,9 +84,7 @@ def book_info_parc(book):
         info = lines
 # ім'я автора   
     try:
-        info_name = lines[1].replace(',', '').replace('.', ' ')
-        # Вибираємо потрібну інформацію за допомогою регулярних виразів
-        author = info_name[-1] + info_name[:-1]          
+        author = lines[1].replace(',', '').replace('.', ' ')
     except Exception:
         author = ''
 # назва книги
@@ -111,6 +93,11 @@ def book_info_parc(book):
         title = title_match.group().strip() if title_match else "Невідома назва"  
     except Exception: 
         title = book
+# жанр книги
+    try:
+        pass
+    except Exception:
+        pass
  # видавництво       
     try:
         publisher_match = re.search(r'([А-ЯІЇЄҐ][а-яіїєґ]+ : [^,]+)', info)
@@ -138,7 +125,8 @@ def book_info_parc(book):
 
 # Пошук перекладачів
     try:
-        translators = extract_translators(info)
+       translators_match = re.search(r';\s(\[?пер\..*?\]?\.\s-)', info)
+       translators = translators_match.group(1).strip()
     except Exception:
         translators = ''
 
@@ -152,7 +140,7 @@ def book_info_parc(book):
             "Рік видачі": year,
             "Кількість примірників": copies,
             "ISBN": isbn,
-            "Перекладач(і)": ", ".join(translators),            
+            "Перекладач(і)": translators,            
         },
     )
 

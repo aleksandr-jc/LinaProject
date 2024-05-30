@@ -1,74 +1,26 @@
 import re
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import Select
-from webdriver_manager.chrome import ChromeDriverManager
-import json
 
-def get_source_html(url):
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    driver.maximize_window()
+# Приклад тексту
+text = "Життєві кризи. Дванадцять кроків до їх подолання [Текст] / Джуліан Слей ; пер. з нім. Наталії Андрусенко, Олени Колюхової. - Київ : Наірі, 2024. - 126 с. : іл. - Бібліогр.: с. 126. - Пер. изд. : Lebenskrisen. Zwölf Schritte zu ihrer Bewältigung / Julian Sleigh. - 2024. - 500 прим. - ISBN 978-617-8192-96-9. - ISBN 978-617-8292-17-1 (електрон. вид.) Дод. тит. арк. нім."
+text1 = "Шестинний шлях. Базові вправи для духовного розвитку [Текст] / Йооп ван Дам ; пер. [з нідерланд.] Мирослави Василюк, Ізабелли Ледякової. - Київ : НАЇРІ, 2024. - 150 с. : іл. - Пер. изд. : Het zesvoudige pad. Basisoefeningen voor spirituele ontwikkelung / Joop van Dam. - 1999. - 500 прим. - ISBN 978-617-8192-93-8. - ISBN 978-617-8292-14-0 (електрон. вид) Дод. тит. арк. нідерланд."
+text1 = "Не так, як здається [Текст] : [повість : для ст. шк. віку] / Сергій Гридін. - Київ : Знання, 2024. - 108 с. : іл. - (Скарби: молодіжна серія). - ISBN 978-617-07-0872-4. - ISBN 978-617-07-0237-1 (серія)"
+text1 = "Уявний друг [Текст] : роман / Стівен Чбоскі ; пер.з англ. Анатолій Хлівний та Людмила Хлівна. - Київ : РІДНА МОВА, 2024. - 702, [1] с. - (Суперроман). - Пер. изд. : Imaginary friend / Stephen Chbosky. - 2019. - 1500 прим. - ISBN 978-617-8373-10-8. - ISBN 978-617-8248-05-5 (серія). - ISBN 978-153-873-133-8 (англ.)"
+# Регулярний вираз для пошуку
+text1 = "Чемні дівчатка потрапляють у рай, погані - куди забажають [Текст] : [роман] / Уте Ергардт ; [пер. з нім. С. Зубченко]. - Харків : КСД, 2024. - 284, [2] с. - Пер. изд. : Gute Mädchen kommen in den Himmel, böse überall hin. Warum Bravsein uns nicht weiterbringt / Ute Ehrhardt. - Frankfurt am Main, 1994. - Дод. наклад 3000 прим. - ISBN 978-617-15-0610-7. - ISBN 978-3-8105-0515-3 (нім.) Дод. тит. арк. нім."
+text = "Джуді Муді стає знаменитою [Текст] : [повість : для мол. шк. віку] / Меґан МакДоналд ; з англ. пер. Наталія Ясіновська ; іл. Пітера Рейнолдса. - Львів : Видавництво Старого Лева, 2024. - 117, [1] с. : іл. - (Джуді Муді ; кн. 2). - 4000 прим. - ISBN 978-617-679-200-0 (укр.). - ISBN 978-1-4063-3583-5 (англ.)"
+# pattern = r';\s(пер\..*?\.\s-)'
 
-    book_info = []
+text = 'МакДоналд, Меґан.'
 
-    try:
-        driver.get(url=url)
-        time.sleep(5)
 
-        start_value = 21
-        step = 20
 
-         # Вибір опції "Рік видання" в селекторі
-        search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
-        search_type_select.select_by_value("G=")
-                
-                # Введення року видання
-        year_input = driver.find_element(By.NAME, "S21STR")  
-        year_input.send_keys("2024")
+info = text
+# ім'я автора   
+try:
+    info_name = text.replace(',', '').replace('.', ' ')
+    # Вибираємо потрібну інформацію за допомогою регулярних виразів
+    author = info_name[-1] + info_name[:-1]          
+except Exception:
+    author = ''
 
-        # Надсилання форми
-        search_button = driver.find_element(By.NAME, "C21COM1")  
-        search_button.click()
-
-        while True:
-            try:
-                # Очікування завантаження результатів
-                time.sleep(5)
-
-                # Отримання результатів
-              
-                main_content = driver.find_element(By.CLASS_NAME, 'advanced')
-                results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
-
-                for result in results:
-                    book_info.append(result.text.strip())
-                    
-                
-                time.sleep(5)
-                
-                 # Формування значення для атрибуту value
-                value = str(start_value)
-                
-                # Пошук елемента за його значенням value і клікаємо на нього
-                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
-                button.click()
-                
-                # Чекати кілька секунд, щоб сторінка завантажилась (при необхідності)
-                time.sleep(5)
-                
-                # Збільшення значення для наступного циклу
-                start_value += step
-            
-            except Exception as e:
-                print(f'Помилка: {e}')
-                # break
-        
-    
-    except Exception as _ex:
-        print(_ex)
-    finally:
-        driver.close()
-        driver.quit()
-
+print(author)
