@@ -15,17 +15,14 @@ def get_source_html(url):
 
     try:
         driver.get(url=url)
+
         time.sleep(5)
 
-        start_value = 21
-        step = 20
-
-        time.sleep(3)
-         # Вибір опції "Рік видання" в селекторі
+        # Вибір опції "Рік видання" в селекторі
         search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
         search_type_select.select_by_value("G=")
                 
-                # Введення року видання
+         # Введення року видання
         year_input = driver.find_element(By.NAME, "S21STR")  
         year_input.send_keys("2024")
 
@@ -33,20 +30,23 @@ def get_source_html(url):
         search_button = driver.find_element(By.NAME, "C21COM1")  
         search_button.click()
 
-        while start_value != 81:
+        start_value = 21
+        step = 20
+
+        time.sleep(3)
+
+        while start_value != 81:                # Контролюємо кількість ітерацій для тестів
             try:
                 # Очікування завантаження результатів
                 time.sleep(5)
 
-                # Отримання результатів
-              
+                # Отримання результатів    
                 main_content = driver.find_element(By.CLASS_NAME, 'advanced')
                 results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
 
                 for result in results:
                     book_info.append(result.text.strip())
-                    
-                
+                                
                 time.sleep(5)
                 
                  # Формування значення для атрибуту value
@@ -66,7 +66,6 @@ def get_source_html(url):
                 print(f'Помилка: {e}')
                 # break
             
-    
     except Exception as _ex:
         print(_ex)
     finally:
@@ -99,45 +98,45 @@ def book_info_parc(book):
         info = lines[2]
     except Exception:
         info = lines
-
+# ім'я автора   
     try:
         info_name = lines[1].replace(',', '').replace('.', ' ')
         # Вибираємо потрібну інформацію за допомогою регулярних виразів
-        author = info_name[-1] + info_name[:-1].strip()  # ім'я автора           
+        author = info_name[-1] + info_name[:-1]          
     except Exception:
         author = ''
-
+# назва книги
     try:
         title_match = re.search(r'(.*?)(?=\[Текст\])', info)
-        title = title_match.group().strip() if title_match else "Невідома назва"  # назва книги
+        title = title_match.group().strip() if title_match else "Невідома назва"  
     except Exception: 
         title = book
-        
+ # видавництво       
     try:
         publisher_match = re.search(r'([А-ЯІЇЄҐ][а-яіїєґ]+ : [^,]+)', info)
         publisher = publisher_match.group().strip() 
     except Exception:
-        publisher = "Невідоме видавництво"  # видавництво
-    
+        publisher = "Невідоме видавництво"  
+# рік видачі    
     try:
         year_match = re.search(r"(\d{4})\.", info)
         year = year_match.group().replace('.', '').strip() 
     except Exception:
-        year = "2024"  # рік видачі
-    
+        year = "2024"  
+# кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)
         copies = copies_match.group(1).strip()
     except Exception:
-        copies = "Невідома кількість примірників"  # кількість примірників
-    
+        copies = "Невідома кількість примірників"  
+# ISBN    
     try:
         isbn_match = re.search(r"ISBN\s(\d+-\d+-\d+-\d+-\d?)", info)
         isbn = isbn_match.group(1).strip() 
     except Exception:
-        isbn = "Невідомий ISBN"  # ISBN
+        isbn = "Невідомий ISBN"  
 
-    # Пошук перекладачів
+# Пошук перекладачів
     try:
         translators = extract_translators(info)
     except Exception:

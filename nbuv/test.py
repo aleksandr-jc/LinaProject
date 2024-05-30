@@ -44,7 +44,6 @@ def get_source_html(url):
 
                 for result in results:
                     book_info.append(result.text.strip())
-                    print(result.text.strip(), '\n')
                     
                 
                 time.sleep(5)
@@ -73,8 +72,3 @@ def get_source_html(url):
         driver.close()
         driver.quit()
 
-def main():
-    get_source_html(url='http://www.irbis-nbuv.gov.ua/cgi-bin/irbis_nbuv/cgiirbis_64.exe?C21COM=F&I21DBN=EC&P21DBN=EC&S21CNR=20&Z21ID=')
-
-if __name__ == '__main__':
-    main()
