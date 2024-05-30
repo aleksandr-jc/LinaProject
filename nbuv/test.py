@@ -17,5 +17,7 @@ try:
     if len(match) < 30:
         ganre = match
         print(ganre)
+    else: 
+        ganre = ''
 except Exception:
     print('Nema !'*10)

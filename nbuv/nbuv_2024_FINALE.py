@@ -35,7 +35,7 @@ def get_source_html(url):
 
         time.sleep(3)
 
-        while start_value != 81:                # Контролюємо кількість ітерацій для тестів
+        while start_value != 841:                # Контролюємо кількість ітерацій для тестів
             try:
                 # Очікування завантаження результатів
                 time.sleep(5)
