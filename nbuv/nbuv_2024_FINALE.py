@@ -90,38 +90,43 @@ def book_info_parc(book):
 # назва книги
     try:
         title_match = re.search(r'(.*?)(?=\[Текст\])', info)
-        title = title_match.group().strip() if title_match else "Невідома назва"  
+        title = title_match.group().strip() if title_match else ""  
     except Exception: 
         title = book
 # жанр книги
     try:
-        pass
+        pattern = r' : \[?(.*?)\]? / '
+        match = re.search(pattern, info).group(1)
+        if len(match) < 30:
+            ganre = match
+        else: 
+            ganre = ''
     except Exception:
-        pass
+        ganre = ''
  # видавництво       
     try:
         publisher_match = re.search(r'([А-ЯІЇЄҐ][а-яіїєґ]+ : [^,]+)', info)
         publisher = publisher_match.group().strip() 
     except Exception:
-        publisher = "Невідоме видавництво"  
+        publisher = ""  
 # рік видачі    
     try:
         year_match = re.search(r"(\d{4})\.", info)
         year = year_match.group().replace('.', '').strip() 
     except Exception:
-        year = "2024"  
+        year = ""  
 # кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)
         copies = copies_match.group(1).strip()
     except Exception:
-        copies = "Невідома кількість примірників"  
+        copies = ""  
 # ISBN    
     try:
         isbn_match = re.search(r"ISBN\s(\d+-\d+-\d+-\d+-\d?)", info)
         isbn = isbn_match.group(1).strip() 
     except Exception:
-        isbn = "Невідомий ISBN"  
+        isbn = ""  
 
 # Пошук перекладачів
     try:
@@ -136,6 +141,7 @@ def book_info_parc(book):
         {
             "Ім'я автора": author.strip(),
             "Назва книги": title,
+            "Жанр": ganre,
             "Видавництво": publisher,
             "Рік видачі": year,
             "Кількість примірників": copies,
