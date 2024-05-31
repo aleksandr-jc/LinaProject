@@ -36,10 +36,8 @@ def get_isbn_seria(text):
     try:
         isbn_match = re.search(r'ISBN (\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1,7}) (\((серія\.?)\))', text)
         isbn = isbn_match.group()
-        print(isbn)
     except Exception:
         isbn = ''
-        print(isbn)
     
 
 for i in lst_of_texts:

@@ -114,7 +114,7 @@ def book_info_parc(book):
         year_match = re.search(r"(\d{4})\.", info)
         year = year_match.group().replace('.', '').strip() 
     except Exception:
-        year = ""  
+        year = "2024"  
 # кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)

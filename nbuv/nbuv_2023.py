@@ -127,7 +127,19 @@ def book_info_parc(book):
         isbn = isbn_match.group(1).strip() 
     except Exception:
         isbn = ""  
+# ISBN_original
+    try:
+        isbn_match = re.search(r'ISBN (\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1,7}) (\((англ.|нім.|нід.|пол.|фр.)\))', info)
+        isbn_original = isbn_match.group()
+    except Exception:
+        isbn_original = ''
 
+# ISBN_seria
+    try:
+        isbn_match = re.search(r'ISBN (\d{3}-\d{1,5}-\d{1,7}-\d{1,7}-\d{1,7}) (\((серія\.?)\))', info)
+        isbn_seria = isbn_match.group()
+    except Exception:
+        isbn_seria = ''
 # Пошук перекладачів
     try:
        translators_match = re.search(r';\s(\[?пер\..*?\]?\.\s-)', info)
@@ -145,7 +157,9 @@ def book_info_parc(book):
             "Видавництво": publisher,
             "Рік видачі": year,
             "Кількість примірників": copies,
-            "ISBN": isbn,
+            "ISBN_UA": isbn,
+            "ISBN_seria":isbn_seria,
+            "ISBN_orginal":isbn_original, 
             "Перекладач(і)": translators,            
         },
     )
