@@ -30,15 +30,22 @@ def get_source_html(url):
         search_button = driver.find_element(By.NAME, "C21COM1")  
         search_button.click()
 
-        start_value = 21
+        start_value = 821
         step = 20
 
         time.sleep(3)
 
-        while start_value != 841:                # Контролюємо кількість ітерацій для тестів
+        while start_value == 821:                # Контролюємо кількість ітерацій для тестів
             try:
                 # Очікування завантаження результатів
                 time.sleep(5)
+
+                  # Формування значення для атрибуту value
+                value = str(start_value)
+                
+                # Пошук елемента за його значенням value і клікаємо на нього
+                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
+                button.click()
 
                 # Отримання результатів    
                 main_content = driver.find_element(By.CLASS_NAME, 'advanced')
@@ -46,15 +53,6 @@ def get_source_html(url):
 
                 for result in results:
                     book_info.append(result.text.strip())
-                                
-                time.sleep(5)
-                
-                 # Формування значення для атрибуту value
-                value = str(start_value)
-                
-                # Пошук елемента за його значенням value і клікаємо на нього
-                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
-                button.click()
                 
                 # Чекати кілька секунд, щоб сторінка завантажилась (при необхідності)
                 time.sleep(5)

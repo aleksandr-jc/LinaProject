@@ -30,16 +30,24 @@ def get_source_html(url):
         search_button = driver.find_element(By.NAME, "C21COM1")  
         search_button.click()
 
-        start_value = 21
+        start_value = 7921
         step = 20
 
         time.sleep(3)
 
-        while start_value != 7941:                # Контролюємо кількість ітерацій для тестів
+        while start_value == 7921:                # Контролюємо кількість ітерацій для тестів
             try:
                 # Очікування завантаження результатів
                 time.sleep(3)
 
+                 # Формування значення для атрибуту value
+                value = str(start_value)
+                
+                  # Пошук елемента за його значенням value і клікаємо на нього
+                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
+                button.click()
+                
+                print(f'Сторінка в обробці: {start_value}')
                 # Отримання результатів    
                 main_content = driver.find_element(By.CLASS_NAME, 'advanced')
                 results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
@@ -48,14 +56,9 @@ def get_source_html(url):
                     book_info.append(result.text.strip())
                                 
                 time.sleep(3)
+                print(f'Заверщення роботи зі сторінкою!')
                 
-                 # Формування значення для атрибуту value
-                value = str(start_value)
-                
-                # Пошук елемента за його значенням value і клікаємо на нього
-                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
-                button.click()
-                
+              
                 # Чекати кілька секунд, щоб сторінка завантажилась (при необхідності)
                 time.sleep(3)
                 
@@ -71,10 +74,10 @@ def get_source_html(url):
     finally:
         driver.close()
         driver.quit()
-
+    print(f'Початок роботи з списком з книг!!!')
     for book in book_info:
         book_info_parc(book)
-
+    print(f'Заверщення обробки даних.')
 def book_info_parc(book):
     # Форматуємо інформацію для кращого зчитання
     lines = book.split('\n')
