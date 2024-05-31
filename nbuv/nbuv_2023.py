@@ -24,7 +24,7 @@ def get_source_html(url):
                 
          # Введення року видання
         year_input = driver.find_element(By.NAME, "S21STR")  
-        year_input.send_keys("2024")
+        year_input.send_keys("2023")
 
         # Надсилання форми
         search_button = driver.find_element(By.NAME, "C21COM1")  
@@ -35,10 +35,10 @@ def get_source_html(url):
 
         time.sleep(3)
 
-        while start_value != 841:                # Контролюємо кількість ітерацій для тестів
+        while start_value != 7941:                # Контролюємо кількість ітерацій для тестів
             try:
                 # Очікування завантаження результатів
-                time.sleep(5)
+                time.sleep(3)
 
                 # Отримання результатів    
                 main_content = driver.find_element(By.CLASS_NAME, 'advanced')
@@ -47,7 +47,7 @@ def get_source_html(url):
                 for result in results:
                     book_info.append(result.text.strip())
                                 
-                time.sleep(5)
+                time.sleep(3)
                 
                  # Формування значення для атрибуту value
                 value = str(start_value)
@@ -57,7 +57,7 @@ def get_source_html(url):
                 button.click()
                 
                 # Чекати кілька секунд, щоб сторінка завантажилась (при необхідності)
-                time.sleep(5)
+                time.sleep(3)
                 
                 # Збільшення значення для наступного циклу
                 start_value += step
@@ -114,7 +114,7 @@ def book_info_parc(book):
         year_match = re.search(r"(\d{4})\.", info)
         year = year_match.group().replace('.', '').strip() 
     except Exception:
-        year = ""  
+        year = "2023"  
 # кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)
@@ -150,7 +150,7 @@ def book_info_parc(book):
         },
     )
 
-    with open('data/nbuv/2024/main/nbuv_2024_json.json', 'a', encoding='utf-8') as file:
+    with open('data/nbuv/2023/main/nbuv_2023.json', 'a', encoding='utf-8') as file:
         json.dump(book_list, file, indent=4, ensure_ascii=False)
     # Друкуємо отримані дані
     # print("Ім'я автора:", author.strip())
