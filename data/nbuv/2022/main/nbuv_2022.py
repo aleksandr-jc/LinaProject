@@ -8,73 +8,73 @@ from webdriver_manager.chrome import ChromeDriverManager
 import json
 
 def get_source_html(url):
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    driver.maximize_window()
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    # driver.maximize_window()
 
-    book_info = []
+    # book_info = []
 
-    try:
-        driver.get(url=url)
+    # try:
+    #     driver.get(url=url)
 
-        time.sleep(5)
+    #     time.sleep(5)
 
-        # Вибір опції "Рік видання" в селекторі
-        search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
-        search_type_select.select_by_value("G=")
+    #     # Вибір опції "Рік видання" в селекторі
+    #     search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
+    #     search_type_select.select_by_value("G=")
                 
-         # Введення року видання
-        year_input = driver.find_element(By.NAME, "S21STR")  
-        year_input.send_keys("2022")
+    #      # Введення року видання
+    #     year_input = driver.find_element(By.NAME, "S21STR")  
+    #     year_input.send_keys("2022")
 
-        # Надсилання форми
-        search_button = driver.find_element(By.NAME, "C21COM1")  
-        search_button.click()
+    #     # Надсилання форми
+    #     search_button = driver.find_element(By.NAME, "C21COM1")  
+    #     search_button.click()
 
-        start_value = 1
-        step = 20
+    #     start_value = 1
+    #     step = 20
 
-        time.sleep(3)
+    #     time.sleep(3)
         
-        while start_value != 7801:                # Контролюємо кількість ітерацій для тестів
-            try:
-                # Очікування завантаження результатів
-                time.sleep(2)
+    #     while start_value != 7801:                # Контролюємо кількість ітерацій для тестів
+    #         try:
+    #             # Очікування завантаження результатів
+    #             time.sleep(2)
 
-                  # Збільшення значення для наступного циклу
-                start_value += step
+    #               # Збільшення значення для наступного циклу
+    #             start_value += step
 
-                print(f'Сторінка в обробці: {start_value}')
-                # Отримання результатів    
-                main_content = driver.find_element(By.CLASS_NAME, 'advanced')
-                results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
+    #             print(f'Сторінка в обробці: {start_value}')
+    #             # Отримання результатів    
+    #             main_content = driver.find_element(By.CLASS_NAME, 'advanced')
+    #             results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
 
-                for result in results:
-                    book_info.append(result.text.strip())
+    #             for result in results:
+    #                 book_info.append(result.text.strip())
 
-                   # Формування значення для атрибуту value
-                value = str(start_value)
+    #                # Формування значення для атрибуту value
+    #             value = str(start_value)
                                 
-                time.sleep(1)
-                print(f'Заверщення роботи зі сторінкою!')
+    #             time.sleep(1)
+    #             print(f'Заверщення роботи зі сторінкою!')
                 
-                  # Пошук елемента за його значенням value і клікаємо на нього
-                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
-                button.click()
+    #               # Пошук елемента за його значенням value і клікаємо на нього
+    #             button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
+    #             button.click()
                            
-            except Exception as e:
-                print(f'Помилка: {e}')
-                # break
+    #         except Exception as e:
+    #             print(f'Помилка: {e}')
+    #             # break
             
-    except Exception as _ex:
-        print(_ex)
-    finally:
-        driver.close()
-        driver.quit()
-    print(f'Початок роботи з списком з книг!!!')
+    # except Exception as _ex:
+    #     print(_ex)
+    # finally:
+    #     driver.close()
+    #     driver.quit()
+    # print(f'Початок роботи з списком з книг!!!')
 
-        # Зберігаємо список з інформацією книг
-    with open('data/nbuv/2022/data/book_info.json', 'w', encoding='utf-8') as file:
-        json.dump(book_info, file, ensure_ascii=False, indent=4)
+    #     # Зберігаємо список з інформацією книг
+    # with open('data/nbuv/2022/data/book_info.json', 'w', encoding='utf-8') as file:
+    #     json.dump(book_info, file, ensure_ascii=False, indent=4)
 
     with open('data/nbuv/2022/data/book_info.json', 'r', encoding='utf-8') as file:
         book_info = json.load(file)
@@ -129,9 +129,11 @@ def book_info_parc(book):
 # рік видачі    
     try:
         year_match = re.search(r"(\d{4})\.", info)
-        year = year_match.group().replace('.', '').strip() 
+        year = year_match.group().replace('.', '').strip()
+        if year != '2022':
+            year = '2022' 
     except Exception:
-        year = "2023"  
+        year = "2022"  
 # кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)
