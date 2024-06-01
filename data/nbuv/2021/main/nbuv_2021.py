@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
 import json
 
-year_of_search = '2021'
+year_of_search = '2021'   # рік пошуку книжок
 
 def get_source_html(url):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -38,13 +38,15 @@ def get_source_html(url):
 
         time.sleep(3)
         
-        while start_value != 19721:                # Контролюємо кількість ітерацій для тестів, ставимо на +20 більше ??
+        while True:                # Контролюємо кількість ітерацій для тестів, ставимо на +20 більше ??
             try:
                 # Очікування завантаження результатів
                 time.sleep(2)
 
                   # Збільшення значення для наступного циклу
                 start_value += step
+
+               
 
                 print(f'Сторінка в обробці: {start_value}')
                 # Отримання результатів    
@@ -63,10 +65,10 @@ def get_source_html(url):
                   # Пошук елемента за його значенням value і клікаємо на нього
                 button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
                 button.click()
-                           
+                
             except Exception as e:
                 print(f'Помилка: {e}')
-                # break
+                break
             
     except Exception as _ex:
         print(_ex)
