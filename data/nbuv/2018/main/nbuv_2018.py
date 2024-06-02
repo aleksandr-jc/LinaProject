@@ -36,7 +36,7 @@ def get_source_html(url):
         start_value = 1
         step = 20
 
-        time.sleep(5)
+        time.sleep(3)
         
         while True:             
             try:
