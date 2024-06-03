@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
 import json
-
+ 
 year_of_search = '2017'   # рік пошуку книжок
 
 def get_source_html(url):
