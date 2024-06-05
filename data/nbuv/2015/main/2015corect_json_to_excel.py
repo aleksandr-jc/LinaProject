@@ -3,7 +3,7 @@ import pandas as pd
 """
 Заміна в json '][' на ',' та зміна формату json на excel, файл не змінюється
 """
-year_of_search = '2017'
+year_of_search = '2015'
 def fix_json_format(input_file):
     # Читаємо вміст файлу
     with open(input_file, 'r', encoding='utf-8') as file:
