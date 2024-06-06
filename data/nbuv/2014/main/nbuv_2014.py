@@ -24,7 +24,11 @@ def get_source_html(url):
         # Вибір опції "Рік видання" в селекторі
         search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
         search_type_select.select_by_value("G=")
-                
+        
+        # Вибір опції "Книги" в селекторі
+        type_select = Select(driver.find_element(By.NAME, '34_S21STR'))
+        type_select.select_by_value("03")
+
          # Введення року видання
         year_input = driver.find_element(By.NAME, "S21STR")  
         year_input.send_keys(f"{year_of_search}")
@@ -41,14 +45,12 @@ def get_source_html(url):
         while True:             
             try:
                 # Очікування завантаження результатів
-                time.sleep(2)
+                print(f'Сторінка в обробці: {start_value}')
+                time.sleep(5)
 
                   # Збільшення значення для наступного циклу
                 start_value += step
 
-               
-
-                print(f'Сторінка в обробці: {start_value}')
                 # Отримання результатів    
                 main_content = driver.find_element(By.CLASS_NAME, 'advanced')
                 results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
@@ -59,7 +61,7 @@ def get_source_html(url):
                    # Формування значення для атрибуту value
                 value = str(start_value)
                                 
-                time.sleep(1)
+                time.sleep(5)
                 print(f'Заверщення роботи зі сторінкою!')
                 
                   # Пошук елемента за його значенням value і клікаємо на нього

@@ -6,77 +6,86 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
 from webdriver_manager.chrome import ChromeDriverManager
 import json
+ 
+year_of_search = '2023'   # рік пошуку книжок
 
 def get_source_html(url):
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-    # driver.maximize_window()
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver.maximize_window()
 
-    # book_info = []
+   
+    book_info = []
 
-    # try:
-    #     driver.get(url=url)
+    try:
+        driver.get(url=url)
 
-    #     time.sleep(5)
+        time.sleep(2)
 
-    #     # Вибір опції "Рік видання" в селекторі
-    #     search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
-    #     search_type_select.select_by_value("G=")
-                
-    #      # Введення року видання
-    #     year_input = driver.find_element(By.NAME, "S21STR")  
-    #     year_input.send_keys("2023")
-
-    #     # Надсилання форми
-    #     search_button = driver.find_element(By.NAME, "C21COM1")  
-    #     search_button.click()
-
-    #     start_value = 1
-    #     step = 20
-
-    #     time.sleep(3)
+        # Вибір опції "Рік видання" в селекторі
+        search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
+        search_type_select.select_by_value("G=")
         
-    #     while start_value != 7941:                # Контролюємо кількість ітерацій для тестів
-    #         try:
-    #             # Очікування завантаження результатів
-    #             time.sleep(3)
-
-    #               # Збільшення значення для наступного циклу
-    #             start_value += step
-
-    #             print(f'Сторінка в обробці: {start_value}')
-    #             # Отримання результатів    
-    #             main_content = driver.find_element(By.CLASS_NAME, 'advanced')
-    #             results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
-
-    #             for result in results:
-    #                 book_info.append(result.text.strip())
-
-    #                # Формування значення для атрибуту value
-    #             value = str(start_value)
-                                
-    #             time.sleep(3)
-    #             print(f'Заверщення роботи зі сторінкою!')
+        # Вибір опції "Книги" в селекторі
+        type_select = Select(driver.find_element(By.NAME, '34_S21STR'))
+        type_select.select_by_value("03")
                 
-    #               # Пошук елемента за його значенням value і клікаємо на нього
-    #             button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
-    #             button.click()
-                           
-    #         except Exception as e:
-    #             print(f'Помилка: {e}')
-    #             # break
+         # Введення року видання
+        year_input = driver.find_element(By.NAME, "S21STR")  
+        year_input.send_keys(f"{year_of_search}")
+
+        # Надсилання форми
+        search_button = driver.find_element(By.NAME, "C21COM1")  
+        search_button.click()
+
+        start_value = 1
+        step = 20
+
+        time.sleep(5)
+        
+        while True:             
+            try:
+                # Очікування завантаження результатів
+                time.sleep(2)
+
+                  # Збільшення значення для наступного циклу
+                start_value += step
+
+               
+
+                print(f'Сторінка в обробці: {start_value}')
+                # Отримання результатів    
+                main_content = driver.find_element(By.CLASS_NAME, 'advanced')
+                results = main_content.find_elements(By.XPATH, "//td[@width='95%']")
+
+                for result in results:
+                    book_info.append(result.text.strip())
+
+                   # Формування значення для атрибуту value
+                value = str(start_value)
+                                
+                time.sleep(1)
+                print(f'Заверщення роботи зі сторінкою!')
+                
+                  # Пошук елемента за його значенням value і клікаємо на нього
+                button = driver.find_element(By.XPATH, f"//input[@type='submit' and @value='{value}']")
+                button.click()
+                
+            except Exception as e:
+                print(f'Помилка: {e}')
+                break
             
-    # except Exception as _ex:
-    #     print(_ex)
-    # finally:
-    #     driver.close()
-    #     driver.quit()
-    # print(f'Початок роботи з списком з книг!!!')
+    except Exception as _ex:
+        print(_ex)
+    finally:
+        driver.close()
+        driver.quit()
+    print(f'Початок роботи з списком з книг!!!')
 
-    #     # Зберігаємо список з інформацією книг
-    # with open('data/nbuv/2023/data/book_info.json', 'w', encoding='utf-8') as file:
-    #     json.dump(book_info, file, ensure_ascii=False, indent=4)
+        # Зберігаємо список з інформацією книг
+    with open(f'data/nbuv/{year_of_search}/data/book_info.json', 'w', encoding='utf-8') as file:
+        json.dump(book_info, file, ensure_ascii=False, indent=4)
 
-    with open('data/nbuv/2023/data/book_info.json', 'r', encoding='utf-8') as file:
+    with open(f'data/nbuv/{year_of_search}/data/book_info.json', 'r', encoding='utf-8') as file:
         book_info = json.load(file)
 
     for book in book_info:
@@ -129,9 +138,11 @@ def book_info_parc(book):
 # рік видачі    
     try:
         year_match = re.search(r"(\d{4})\.", info)
-        year = year_match.group().replace('.', '').strip() 
+        year = year_match.group().replace('.', '').strip()
+        if year != year_of_search:
+            year = year_of_search
     except Exception:
-        year = "2023"  
+        year = year_of_search  
 # кількість примірників
     try: 
         copies_match = re.search(r"(\d+)\sприм\.", info)
@@ -181,7 +192,7 @@ def book_info_parc(book):
         },
     )
 
-    with open('data/nbuv/2023/main/nbuv_2023.json', 'a', encoding='utf-8') as file:
+    with open(f'data/nbuv/{year_of_search}/data/nbuv_{year_of_search}.json', 'a', encoding='utf-8') as file:
         json.dump(book_list, file, indent=4, ensure_ascii=False)
     # Друкуємо отримані дані
     # print("Ім'я автора:", author.strip())
@@ -197,3 +208,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

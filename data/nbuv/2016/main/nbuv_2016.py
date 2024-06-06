@@ -24,7 +24,11 @@ def get_source_html(url):
         # Вибір опції "Рік видання" в селекторі
         search_type_select = Select(driver.find_element(By.NAME, "S21P03"))
         search_type_select.select_by_value("G=")
-                
+
+        # Вибір опції "Книги" в селекторі
+        type_select = Select(driver.find_element(By.NAME, '34_S21STR'))
+        type_select.select_by_value("03")
+                       
          # Введення року видання
         year_input = driver.find_element(By.NAME, "S21STR")  
         year_input.send_keys(f"{year_of_search}")
