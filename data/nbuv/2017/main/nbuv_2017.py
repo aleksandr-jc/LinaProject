@@ -45,7 +45,7 @@ def get_source_html(url):
         while True:             
             try:
                 # Очікування завантаження результатів
-                time.sleep(2)
+                time.sleep(3)
 
                   # Збільшення значення для наступного циклу
                 start_value += step
