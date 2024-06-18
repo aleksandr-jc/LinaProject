@@ -14,8 +14,8 @@ def get_data(url):
     # req = requests.get(url, headers=headers)
 
 #    зберігаємо html сторінку локально
-    # with open('data/sens/main/sens_books.html', 'w') as file:
-    #     file.write(req.text)
+    with open('data/sens/main/sens_books.html', 'w') as file:
+        file.write(req.text)
 
     # відкриваємо локальний файл html, щоб зробити меншу нагрузку на сайт
     with open('data/sens/main/sens_books.html') as file:
@@ -42,8 +42,8 @@ def get_data(url):
         project_name = project_url.split("/")[-2]
 
         # зберігаємо локально кожний html книжки
-        # with open(f'data/sens/data/{project_name}.html', 'w') as file:
-        #     file.write(req.text)
+        with open(f'data/sens/data/{project_name}.html', 'w') as file:
+            file.write(req.text)
 
         # відкриваємо локально кожни html книжки
         with open(f'data/sens/data/{project_name}.html') as file:
@@ -78,10 +78,20 @@ def get_data(url):
         # знаходимо ISBN
         isbn = get_year(book_data, 'Штрихкод')
 
+        # Інформація яка відсутня на сайті
+        book_language = None
+        translator = None
+        book_original_language = None
+        book_original_name = None
+
         book_data_list.append(
             {
                 'Імʼя автора': book_author,
                 'Назва книги': book_name,
+                'Мова': book_language,
+                'Перекладач': translator,
+                'Мова оригіналу': book_original_language,
+                'Оригінальна назва': book_original_name,
                 'Назва видавця': book_publisher,
                 'Рік видання': pub_year,
                 'ISBN': isbn,
@@ -122,8 +132,16 @@ def get_year(soup, feature_name):
     except Exception as e:
         return None
     
-def main(url):
-    get_data(url=url)
+base_url = 'https://sens.in.ua/kataloh/filter/page='
+listmode = '/'
+start_value = 2
+max_value = 402
 
-if __name__ == '__main__':
-    main(url="https://sens.in.ua/kataloh/")
+for attempt in range(max_value):
+    try:    
+        url = f"{base_url}{start_value}{listmode}"
+        start_value += 1 
+        data = get_data(url)
+    except Exception:
+        print('END!')
+        break
