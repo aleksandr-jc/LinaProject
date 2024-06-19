@@ -3,7 +3,7 @@ import re
 import time
 from bs4 import BeautifulSoup
 import json
-import random
+
 
 def get_data(url):
     headers = {
@@ -11,7 +11,7 @@ def get_data(url):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
     }
     # робимо запит на сайт
-    # req = requests.get(url, headers=headers)
+    req = requests.get(url, headers=headers)
 
 #    зберігаємо html сторінку локально
     with open('data/sens/main/sens_books.html', 'w') as file:
@@ -78,9 +78,11 @@ def get_data(url):
         # знаходимо ISBN
         isbn = get_year(book_data, 'Штрихкод')
 
+        # знаходимо перекладача
+        translator = get_feature_text(book_data, 'Перекладач')
+
         # Інформація яка відсутня на сайті
-        book_language = None
-        translator = None
+        book_language = None   
         book_original_language = None
         book_original_name = None
 
@@ -97,14 +99,14 @@ def get_data(url):
                 'ISBN': isbn,
                 'Жанр книги': book_genre,
             }
-        )       
-
-    time.sleep(random.randrange(2, 4))
+        )          
 
     # Зберігаємо список в json файл
     with open('data/sens/main/sens_json.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
     print('Done')
+
+    time.sleep(2)
 
 # Функція для витягнення тексту з комірки таблиці (Автор, видавництво, розділ)
 def get_feature_text(soup, feature_name):          
@@ -131,17 +133,24 @@ def get_year(soup, feature_name):
         return None
     except Exception as e:
         return None
-    
+
+
+# виклик функції на першу сторінку
+get_data('https://sens.in.ua/kataloh/')
+
 base_url = 'https://sens.in.ua/kataloh/filter/page='
 listmode = '/'
 start_value = 2
-max_value = 402
+max_value = 100
 
 for attempt in range(max_value):
     try:    
         url = f"{base_url}{start_value}{listmode}"
-        start_value += 1 
+        print(f'Page {start_value}')
         data = get_data(url)
-    except Exception:
+        start_value += 1 
+
+    except Exception as _ex:
+        print(_ex)
         print('END!')
         break
