@@ -46,7 +46,7 @@ def get_data(url):
             file.write(req.text)
 
         # відкриваємо локально кожни html книжки
-        with open(f'data/sens/data/{project_name}.html') as file:
+        with open(f'data/sens/data/raw/{project_name}.html') as file:
             src = file.read()
 
         soup = BeautifulSoup(src, 'lxml')
