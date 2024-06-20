@@ -136,12 +136,12 @@ def get_year(soup, feature_name):
 
 
 # виклик функції на першу сторінку
-get_data('https://sens.in.ua/kataloh/')
+# get_data('https://sens.in.ua/kataloh/')
 
 base_url = 'https://sens.in.ua/kataloh/filter/page='
 listmode = '/'
-start_value = 2
-max_value = 100
+start_value = 102
+max_value = 201
 
 for attempt in range(max_value):
     try:    
