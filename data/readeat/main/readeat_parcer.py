@@ -117,7 +117,7 @@ def get_data(url):
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
     print('---Done---')
 
-    time.sleep(2)
+
 
 # функція яка знаходить жанр книжки
 def get_genre(soup):
@@ -162,13 +162,14 @@ def get_feature(soup, feature_name):
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
 start_time = time.time()
-get_data(url='https://readeat.com/catalog/knigi')
+# get_data(url='https://readeat.com/catalog/knigi')
 
 # робимо цикл щоб пройтись по всім сторінкам
 base_url = 'https://readeat.com/catalog/knigi?page='
 
 # початкова сторінка
-start_value = 2
+# зробив до 61 включно
+start_value = 62
 # встановлюємо кількість циклів всього 387 сторінок
 max_attempts = 100
 
