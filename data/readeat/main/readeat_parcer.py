@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-import time
 
 def get_data(url):
     headers = {
@@ -45,12 +44,12 @@ def get_data(url):
         # беремо назву з url для збереження файлів html по кожній книжці
         project_name = project_url.split('/')[-1]
 
-        # # зберігаємо локально кожний html книжок
-        with open(f'data/readeat/data/raw/{project_name}.html', 'w') as file:
+        # зберігаємо локально кожний html книжок
+        with open(f'data/readeat/data/raw/raw2/{project_name}.html', 'w') as file:
             file.write(req.text)
         
         # відкриваємо локально кожний html книжок
-        with open(f'data/readeat/data/raw/{project_name}.html') as file:
+        with open(f'data/readeat/data/raw/raw2/{project_name}.html') as file:
             src = file.read()
 
         # стоврюмо обьєкт soup для парсингу кожної сторінки з книжкою
@@ -113,8 +112,9 @@ def get_data(url):
         )  
 
     # зберігаємо список в json файл
-    with open('data/sens/data/processed/readeat_json.json', 'a', encoding='utf-8') as file:
+    with open('data/readeat/data/processed/readeat_json.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
+
     print('---Done---')
 
 
@@ -161,7 +161,6 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-start_time = time.time()
 # get_data(url='https://readeat.com/catalog/knigi')
 
 # робимо цикл щоб пройтись по всім сторінкам
@@ -169,7 +168,8 @@ base_url = 'https://readeat.com/catalog/knigi?page='
 
 # початкова сторінка
 # зробив до 61 включно
-start_value = 62
+# зробив до 141 включно
+start_value = 242
 # встановлюємо кількість циклів всього 387 сторінок
 max_attempts = 100
 
@@ -181,9 +181,4 @@ for attempt in range(max_attempts):
         start_value += 1
     except Exception as _ex:
         print(_ex)
-        print('Парсинг завершено!')
-        end_time = time.time()
-        # час виконання программи
-        execution_time = end_time - start_time
-        print(f"Парсинг завершено! Час виконання: {execution_time:.2f} секунд") 
         break
