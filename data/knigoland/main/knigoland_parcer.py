@@ -39,7 +39,30 @@ def get_data(url):
     book_data_list = []
 
     for project_url in project_urls:
-        # робимо запит на сторінку з книжкою
-        req = requests.get(project_url, headers=headers)
+        try:
+            # робимо запит на сторінку з книжкою
+            req = requests.get(project_url, headers=headers)
+            soup = BeautifulSoup(req.text, 'lxml')
 
-        # беремо назву з url для збереження файлу
+            book_data = soup.find('div', class_='knl-product-card-characteristics')
+            book_name_soup = soup.find('div', class_='d-flex align-center')
+
+            # знаходимо назву книжки
+            try:
+                book_name = book_name_soup.find('h1', class_='knl-product-card__h1 my-2')
+                book_name = book_name.text.strip()
+            except Exception:
+                book_name = None
+            
+            # знаходимо автора
+
+        except Exception:
+            break
+
+def get_feature_text(soup, feature_name):
+    try:
+        first_div = soup.find('div', class_='knl-product-card-characteristics__name', string=lambda text: feature_name in text)
+        if first_div:
+            second_div = first_div.find_next('div', class_='d-flex align-center')
+    except Exception:
+        return None
