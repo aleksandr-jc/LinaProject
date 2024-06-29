@@ -164,9 +164,11 @@ base_url = 'https://knigoland.com.ua/non-fiction-?PAGEN_1='
 # зробив до 11 сторінки включно
 # зробив до 31 сторінки включно
 # зробив до 60 сторінки
-start_value = 61
-# встановлюємо кількість циклів всього 387 сторінок
-max_attempts = 30
+# 90
+# 120
+start_value = 121
+# встановлюємо кількість циклів всього 154 сторінок
+max_attempts = 34
 
 for attempt in range(max_attempts):
     try:
