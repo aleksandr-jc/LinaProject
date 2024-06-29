@@ -12,8 +12,8 @@ def get_data(url):
     req = requests.get(url, headers=headers)
 
     # зберігаємо локально html сторінку з каталогом книжок
-    # with open('data/knigoland/main/knigoland_non_fiction.html', 'w') as file:
-    #     file.write(req.text)
+    with open('data/knigoland/main/knigoland_non_fiction.html', 'w') as file:
+        file.write(req.text)
 
     # відкриваємо локально
     with open('data/knigoland/main/knigoland_non_fiction.html') as file:
@@ -36,7 +36,7 @@ def get_data(url):
     # створюємо список де будемо зберігати інформацію прокнижки
     book_data_list = []
     # створюємо цикл щоб пройтись по кожному посиланні та збераємо інформацію
-    for project_url in project_urls[0:1]:
+    for project_url in project_urls:
         try:
             # робимо запит на сторінку з книжкою
             req = requests.get(project_url, headers=headers)
@@ -81,9 +81,6 @@ def get_data(url):
             translator = None
             book_original_language = None
             book_original_name = None
-            
-
-
 
             book_data_list.append(
             {
@@ -100,12 +97,18 @@ def get_data(url):
             }
         ) 
 
-            # зберігаємо список в json файл
-            with open('data/knigoland/data/processed/knigoland_non_fiction.json', 'a', encoding='utf-8') as file:
-                json.dump(book_data_list, file, indent=4, ensure_ascii=False)
-
         except Exception:
-            break
+            break   
+
+
+
+
+
+      
+
+             # зберігаємо список в json файл
+    with open('data/knigoland/data/processed/knigoland_non_fiction.json', 'a', encoding='utf-8') as file:
+        json.dump(book_data_list, file, indent=4, ensure_ascii=False)
 
 
 def get_genre(soup):
@@ -152,14 +155,16 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-get_data('https://knigoland.com.ua/non-fiction-')
+# get_data('https://knigoland.com.ua/non-fiction-')
 
 # робимо цикл щоб пройтись по всім сторінкам
 base_url = 'https://knigoland.com.ua/non-fiction-?PAGEN_1='
 
-start_value = 2
+
+# зробив до 11 сторінки включно
+start_value = 12
 # встановлюємо кількість циклів всього 387 сторінок
-max_attempts = 100
+max_attempts = 20
 
 for attempt in range(max_attempts):
     try:
@@ -169,4 +174,6 @@ for attempt in range(max_attempts):
         start_value += 1
     except Exception as _ex:
         print(_ex)
+        print('Заверщення парсингу')
         break
+        
