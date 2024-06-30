@@ -2,8 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-def get_data(url):
 
+
+def get_data(url):
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
@@ -38,6 +39,7 @@ def get_data(url):
     # створюємо цикл щоб пройтись по кожному посиланні та збераємо інформацію
     for project_url in project_urls:
         try:
+            
             # робимо запит на сторінку з книжкою
             req = requests.get(project_url, headers=headers)
             
@@ -95,22 +97,17 @@ def get_data(url):
                 'ISBN': isbn,
                 'Жанр книги': book_genre,
             }
-        ) 
+            ) 
 
         except Exception:
             break   
 
-
-
-
-
-      
-
-             # зберігаємо список в json файл
+    # зберігаємо список в json файл
     with open('data/knigoland/data/processed/knigoland_children.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
-
-
+    count = 0
+    count = len(book_data_list) + count
+    print(f'Зроблено книжок: {count}')
 def get_genre(soup):
     try:
             # Знаходимо всі елементи li з класом 'knl-breadcrumbs__item'
@@ -155,15 +152,17 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-get_data('https://knigoland.com.ua/dityacha-literatura')
+# get_data('https://knigoland.com.ua/dityacha-literatura')
 
 # робимо цикл щоб пройтись по всім сторінкам
 base_url = 'https://knigoland.com.ua/dityacha-literatura?PAGEN_1='
 
-
-start_value = 2
+# 16
+# 56
+# 96
+start_value = 97
 # встановлюємо кількість циклів всього 330 сторінок
-max_attempts = 30
+max_attempts = 40
 
 for attempt in range(max_attempts):
     try:
@@ -171,6 +170,7 @@ for attempt in range(max_attempts):
         print(f'Page: {start_value}')
         data = get_data(url)
         start_value += 1
+       
     except Exception as _ex:
         print(_ex)
         print('Заверщення парсингу')
