@@ -166,9 +166,11 @@ base_url = 'https://knigoland.com.ua/dityacha-literatura?PAGEN_1='
 # 159
 # 199
 # 239
-start_value = 200
+# 256
+# 329
+start_value = 330
 # встановлюємо кількість циклів всього 330 сторінок
-max_attempts = 40
+max_attempts = 91
 
 for attempt in range(max_attempts):
     try:
@@ -177,7 +179,7 @@ for attempt in range(max_attempts):
         data = get_data(url)
         start_value += 1
        
-    except Exception as _ex:
+    except Exception as _ex: 
         print(_ex)
         print('Заверщення парсингу')
         break
