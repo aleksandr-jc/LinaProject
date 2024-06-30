@@ -160,7 +160,13 @@ base_url = 'https://knigoland.com.ua/dityacha-literatura?PAGEN_1='
 # 16
 # 56
 # 96
-start_value = 97
+# 101
+# 121 
+# 152
+# 159
+# 199
+# 239
+start_value = 200
 # встановлюємо кількість циклів всього 330 сторінок
 max_attempts = 40
 
