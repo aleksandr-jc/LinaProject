@@ -152,24 +152,43 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-get_data('https://knigoland.com.ua/khudozhnya-literatura')
+
+# get_data('https://knigoland.com.ua/khudozhnya-literatura')
 
 # робимо цикл щоб пройтись по всім сторінкам
 base_url = 'https://knigoland.com.ua/khudozhnya-literatura?PAGEN_1='
 
-start_value = 2
-# встановлюємо кількість циклів всього 165 сторінок
-max_attempts = 30
+# 31
+# 131
+start_value = 132
 
-for attempt in range(max_attempts):
-    try:
-        url = f"{base_url}{start_value}"
-        print(f'Page: {start_value}')
-        data = get_data(url)
-        start_value += 1
+
+
+# встановлюємо кількість циклів всього 165 сторінок
+# max_attempts = 34
+
+# for attempt in range(max_attempts):
+#     try:
+#         url = f"{base_url}{start_value}"
+#         print(f'Page: {start_value}')
+#         data = get_data(url)
+#         start_value += 1
        
+#     except Exception as _ex: 
+#         print(_ex)
+#         print('Заверщення парсингу')
+#         break
+
+
+# перезапускаю на пропущенні сторінки
+# незроблено з 78 до 105
+for url_num in range(132, 166):
+    try:
+        url = f"{base_url}{url_num}"
+        print(f'Page: {url_num}')
+        data = get_data(url)
+    
     except Exception as _ex: 
         print(_ex)
         print('Заверщення парсингу')
         break
-        
