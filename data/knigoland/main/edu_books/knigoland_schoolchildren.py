@@ -159,7 +159,7 @@ get_data('https://knigoland.com.ua/shkolyaram-abituri-ntam')
 base_url = 'https://knigoland.com.ua/shkolyaram-abituri-ntam?PAGEN_1='  # https://knigoland.com.ua/shkolyaram-abituri-ntam?PAGEN_1=2
 
 # встановлюємо кількість циклів всього 200 сторінок
-
+# 154
 for url_num in range(2, 201):    # треба ставити range максимальний на одну сторінку більше
     try:
         url = f"{base_url}{url_num}"

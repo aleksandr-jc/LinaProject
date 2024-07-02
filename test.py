@@ -1,13 +1,19 @@
-base_url = 'https://sens.in.ua/kataloh/filter/page='
-listmode = '/'
-start_value = 2
-max_value = 402
+data =     [{
+        "Імʼя автора": "Василь Королів-Старий",
+        "Назва книги": "Книга Василь Королів-Старий. ВИБРАНЕ (серія \"Рядки з тіні\")",
+        "Мова": "Українська мова",
+        "Перекладач": None,
+        "Мова оригіналу": None,
+        "Оригінальна назва": None,
+        "Назва видавця": "Ще одну сторінку",
+        "Рік видання": "2024",
+        "ISBN": "9786175222485",
+        "Жанр книги": "Художня література"
+    }]
+print(data)
+for item in data:
+    if "Назва книги" in item:
+        item["Назва книги"] = item["Назва книги"].replace("\\", "").replace('Книга', '').strip()
+        
 
-for attempt in range(max_value):
-    try:    
-        url = f"{base_url}{start_value}{listmode}"
-        start_value += 1 
-        data = get_data(url)
-    except Exception:
-        print('END!')
-        break
+print(data)
