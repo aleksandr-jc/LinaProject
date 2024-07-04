@@ -28,4 +28,4 @@ def clean_data(input_file, output_file):
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 # Використання функції
-clean_data('data/knigoland/data/processed/json/knigoland_schoolchildren.json', 'data/knigoland/data/processed/json/knigoland_schoolchildren1.json')
+clean_data('data/knigoland/data/processed/json/knigoland_schoolchildren.json', 'data/knigoland/data/processed/json/knigoland_schoolchildren1пш.json')

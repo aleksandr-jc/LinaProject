@@ -152,15 +152,15 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-print(f'Page: 1')
-get_data('https://knigoland.com.ua/vikhovatelyam-pedagogam')
+# print(f'Page: 1')
+# get_data('https://knigoland.com.ua/vikhovatelyam-pedagogam')
 
 # робимо цикл щоб пройтись по всім сторінкам
 base_url = 'https://knigoland.com.ua/vikhovatelyam-pedagogam?PAGEN_1='  
 
-# встановлюємо кількість циклів всього 146 сторінок
-
-for url_num in range(2, 147):    # треба ставити range максимальний на одну сторінку більше
+# встановлюємо кількість циклів всього 149 сторінок
+# 116
+for url_num in range(117, 150):    # треба ставити range максимальний на одну сторінку більше
     try:
         url = f"{base_url}{url_num}"
         print(f'Page: {url_num}')

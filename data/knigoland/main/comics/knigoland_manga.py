@@ -13,11 +13,11 @@ def get_data(url):
     req = requests.get(url, headers=headers)
 
     # зберігаємо локально html сторінку з каталогом книжок
-    with open('data/knigoland/main/edu_books/knigoland_students.html', 'w') as file:
+    with open('data/knigoland/main/comics/knigoland_manga.html', 'w') as file:
         file.write(req.text)
 
     # відкриваємо локально
-    with open('data/knigoland/main/edu_books/knigoland_students.html') as file:
+    with open('data/knigoland/main/comics/knigoland_manga.html') as file:
         src = file.read()
 
     # створюємо обьєкт soup
@@ -102,7 +102,7 @@ def get_data(url):
             break   
 
     # зберігаємо список в json файл
-    with open('data/knigoland/data/processed/json/knigoland_students.json', 'a', encoding='utf-8') as file:
+    with open('data/knigoland/data/processed/json/knigoland_manga.json', 'a', encoding='utf-8') as file:
         json.dump(book_data_list, file, indent=4, ensure_ascii=False)
       
     print(f'Зроблено книжок: {len(book_data_list)}')
@@ -152,21 +152,22 @@ def get_feature(soup, feature_name):
 
 # виклик на першу сторінку 
 print(f'Початок парсингу!')
-# print(f'Page: 1')
-# get_data('https://knigoland.com.ua/studentam-aspirantam')
+print(f'Page: 1')
+get_data('https://knigoland.com.ua/manga?PAGEN_1=3')
 
 # робимо цикл щоб пройтись по всім сторінкам
-base_url = 'https://knigoland.com.ua/studentam-aspirantam?PAGEN_1='  
+# base_url = 'https://knigoland.com.ua/manga?PAGEN_1='
 
-# встановлюємо кількість циклів всього 11 сторінок
-# 11
-for url_num in range(1, 12):    # треба ставити range максимальний на одну сторінку більше
-    try:
-        url = f"{base_url}{url_num}"
-        print(f'Page: {url_num}')
-        data = get_data(url)
+# # встановлюємо кількість циклів всього 6 сторінок
+
+
+# for url_num in range(2, 7):    # треба ставити range максимальний на одну сторінку більше
+#     try:
+#         url = f"{base_url}{url_num}"
+#         print(f'Page: {url_num}')
+#         data = get_data(url)
     
-    except Exception as _ex: 
-        print(_ex)
-        print('Заверщення парсингу')
-        break
+#     except Exception as _ex: 
+#         print(_ex)
+#         print('Заверщення парсингу')
+#         break
