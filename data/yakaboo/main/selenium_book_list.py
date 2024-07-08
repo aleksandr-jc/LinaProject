@@ -14,9 +14,11 @@ def get_source_html(url):
         driver.get(url=url)
         time.sleep(3)
         
+        try: 
+            info_button = driver.find_element(By.XPATH, '//*[@id="product"]/div[1]/div/div/div/section/div[7]/button') 
+        except:
+            info_button = driver.find_element(By.XPATH, '//*[@id="product"]/div[1]/div/div/div/section/div[6]/button')
 
-        info_button = driver.find_element(By.XPATH, '//*[@id="product"]/div[1]/div/div/div/section/div[7]/button') 
-                                                #    //*[@id="product"]/div[1]/div/div/div/section/div[7]/button
         driver.execute_script("arguments[0].scrollIntoView(true);", info_button)
         info_button.click()
         time.sleep(2)
@@ -67,20 +69,18 @@ def save_book_info(info_list):
     
     return book_info
 
-
-with open('data/yakaboo/main/book_links.txt') as file:
+start_time = time.time()
+with open('data/yakaboo/main/book_links21_40.txt') as file:
     src = file.readlines()
 
-# 20 книжок
-for link in src[20:]:
 
-    strat_time = time.time()
-
+for link in src:
     print(f'Page: {link}')
     link = link.strip()
     info = get_source_html(link)
     save_book_info(info)
 
-    end_time = time.time() - strat_time
-    print(end_time)
+# виводимо час роботи скрипту
+end_time = time.time() - start_time
+print(end_time)
     
