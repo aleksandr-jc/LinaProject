@@ -36,7 +36,7 @@ def get_data(url):
         project_url = 'https://www.yakaboo.ua' + article.find('a', class_='category-card__image').get('href')
         project_urls.append(project_url)
 
-    with open('data/yakaboo/main/book_links21_40.txt', 'a') as file:
+    with open('data/yakaboo/main/book_links41_60.txt', 'a') as file:
         for link in project_urls:
             file.write(f"{link}\n")
 
@@ -49,8 +49,8 @@ base_url = 'https://www.yakaboo.ua/ua/knigi/hudozhestvennaja-literatura.html?boo
 
 # 10
 # 20 
-# 
-for x in range(21, 41):    # 2049
+# 40
+for x in range(41, 61):    # 2049
     try:
         url = f"{base_url}{x}"
         print(f'Page: {x}')

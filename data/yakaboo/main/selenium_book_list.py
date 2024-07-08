@@ -72,9 +72,9 @@ def save_book_info(info_list):
 start_time = time.time()
 with open('data/yakaboo/main/book_links21_40.txt') as file:
     src = file.readlines()
+# 34
 
-
-for link in src:
+for link in src[35:]:
     print(f'Page: {link}')
     link = link.strip()
     info = get_source_html(link)
