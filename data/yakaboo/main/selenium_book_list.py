@@ -2,12 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import json
 
 def get_source_html(url):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    
     driver.maximize_window()
     info_list = []
     try:
@@ -72,8 +74,10 @@ def save_book_info(info_list):
 start_time = time.time()
 with open('data/yakaboo/main/book_links61_101.txt') as file:
     src = file.readlines()
-
-for link in src:
+# 351
+# 1015
+# 1904
+for link in src[1904:]:
     print(f'Page: {link}')
     link = link.strip()
     info = get_source_html(link)
