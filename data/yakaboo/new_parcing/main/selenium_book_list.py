@@ -7,6 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import json
 from selenium.webdriver.chrome.options import Options
+import os 
+import shutil
 
 def get_source_html(url):
    
@@ -78,17 +80,32 @@ def save_book_info(info_list):
     
     return book_info
 
-start_time = time.time()
-with open('data/yakaboo/new_parcing/data/book_links_A_ba_ba_ga_la_ma_ga.txt') as file:
-    src = file.readlines()
 
-for link in src[110:]:
-    print(f'Page: {link}')
-    link = link.strip()
-    info = get_source_html(link)
-    save_book_info(info)
 
-# виводимо час роботи скрипту
-end_time = time.time() - start_time
-print(end_time)
+
+
+list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
+count = 0
+element = '[+]'
+
+for x in list[:1]:
     
+    print(f'Працюємо з цим видавництвом:  {x} \n {element * 30}')
+    with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
+        src = file.readlines()
+
+    for link in src:
+        print(f'Page: {link}')
+        link = link.strip()
+        info = get_source_html(link)
+        save_book_info(info)
+
+    source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
+    destination = f'data/yakaboo/new_parcing/test/{x}'
+    shutil.move(source, destination)
+
+    count += 1
+    
+
+
+print(count)
