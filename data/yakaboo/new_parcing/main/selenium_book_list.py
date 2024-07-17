@@ -88,14 +88,14 @@ list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
 count = 0
 element = '[+]'
 
-for x in list[:1]:
+for x in list[:10]:
     
-    print(f'Працюємо з цим видавництвом:  {x} \n {element * 30}')
+    print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
         src = file.readlines()
 
-    for link in src:
-        print(f'Page: {link}')
+    for index, link in enumerate(src):
+        print(f'Index: {index} Page: {link}')
         link = link.strip()
         info = get_source_html(link)
         save_book_info(info)
@@ -105,7 +105,16 @@ for x in list[:1]:
     shutil.move(source, destination)
 
     count += 1
-    
+    print(count)
 
+# Навипадок збою
 
-print(count)
+# with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Glorija.txt') as file:
+#     src = file.readlines()
+
+# for index, link in enumerate(src[166:]):
+#     print(f'Index: {index} Page: {link}')
+#     link = link.strip()
+#     info = get_source_html(link)
+#     save_book_info(info)
+
