@@ -84,37 +84,37 @@ def save_book_info(info_list):
 
 
 
-# list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
-# count = 0
-# element = '[+]'
+list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
+count = 0
+element = '[+]'
 
-# for x in list[:10]:
+for x in list[:20]:
     
-#     print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
-#     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
-#         src = file.readlines()
+    print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
+    with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
+        src = file.readlines()
 
-#     for index, link in enumerate(src):
-#         print(f'Index: {index} Page: {link}')
-#         link = link.strip()
-#         info = get_source_html(link)
-#         save_book_info(info)
+    for index, link in enumerate(src):
+        print(f'Index: {index} Page: {link}')
+        link = link.strip()
+        info = get_source_html(link)
+        save_book_info(info)
 
-#     source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
-#     destination = f'data/yakaboo/new_parcing/test/{x}'
-#     shutil.move(source, destination)
+    source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
+    destination = f'data/yakaboo/new_parcing/test/{x}'
+    shutil.move(source, destination)
 
-#     count += 1
-#     print(count)
+    count += 1
+    print(count)
 
 # Навипадок збою
 
-with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Kraina_Mrij_KM_buks_KM_Publishing.txt') as file:
-    src = file.readlines()
+# with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Pegas.txt') as file:
+#     src = file.readlines()
 
-for index, link in enumerate(src[1406:]):
-    print(f'Index: {index} Page: {link}')
-    link = link.strip()
-    info = get_source_html(link)
-    save_book_info(info)
+# for index, link in enumerate(src[756:]):
+#     print(f'Index: {index} Page: {link}')
+#     link = link.strip()
+#     info = get_source_html(link)
+#     save_book_info(info)
 
