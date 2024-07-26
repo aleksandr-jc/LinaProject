@@ -26,11 +26,9 @@ def get_source_html(url):
         
         try: 
             info_button = driver.find_element(By.CSS_SELECTOR, '#product > div:nth-child(1) > div > div > div > section > div.product-chars.main__chars.product-main-section > button') 
-                                                            #   #product > div:nth-child(1) > div > div > div > section > div.product-chars.main__chars.product-main-section > button
         except:
             time.sleep(1)
             info_button = driver.find_element(By.CSS_SELECTOR, '#product > div:nth-child(1) > div > div > div > section > div.product-chars.main__chars.product-main-section > button') 
-        #                                                # //*[@id="product"]/div[1]/div/div/div/section/div[7]/button
         
         driver.execute_script("arguments[0].scrollIntoView(true);", info_button)
         info_button.click()
@@ -57,8 +55,8 @@ def get_source_html(url):
 def save_book_info(info_list):
     # Створюємо словник для зберігання інформації
     book_info = {}
-    
     # Обробляємо кожен елемент списку
+
     for item in info_list[0]:
         # Розділяємо ключ і значення за символом нової лінії
         key, value = item.split('\n')
@@ -84,37 +82,37 @@ def save_book_info(info_list):
 
 
 
-list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
-count = 0
-element = '[+]'
+# list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
+# print(len(list))
+# count = 0
+# element = '[+]'
 
-for x in list[:20]:
+# for x in list[:30]:
     
-    print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
-    with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
-        src = file.readlines()
+#     print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
+#     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
+#         src = file.readlines()
 
-    for index, link in enumerate(src):
-        print(f'Index: {index} Page: {link}')
-        link = link.strip()
-        info = get_source_html(link)
-        save_book_info(info)
+#     for index, link in enumerate(src):
+#         print(f'Index: {index} Page: {link}')
+#         link = link.strip()
+#         info = get_source_html(link)
+#         save_book_info(info)
 
-    source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
-    destination = f'data/yakaboo/new_parcing/test/{x}'
-    shutil.move(source, destination)
+#     source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
+#     destination = f'data/yakaboo/new_parcing/test/{x}'
+#     shutil.move(source, destination)
 
-    count += 1
-    print(count)
+#     count += 1
+#     print(count)
 
 # Навипадок збою
 
-# with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Pegas.txt') as file:
-#     src = file.readlines()
+with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Folio.txt') as file:
+    src = file.readlines()
 
-# for index, link in enumerate(src[756:]):
-#     print(f'Index: {index} Page: {link}')
-#     link = link.strip()
-#     info = get_source_html(link)
-#     save_book_info(info)
-
+for index, link in enumerate(src[6342:]):
+    print(f'Index: {index} Page: {link}')
+    link = link.strip()
+    info = get_source_html(link)
+    save_book_info(info)
