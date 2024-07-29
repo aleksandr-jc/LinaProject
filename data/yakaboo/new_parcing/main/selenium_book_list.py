@@ -81,38 +81,49 @@ def save_book_info(info_list):
 
 
 
+def main():
+    list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
+    print(len(list))
+    count = 0
+    element = '[+]'
 
-# list = os.listdir('data/yakaboo/new_parcing/data/book_publisher_links')
-# print(len(list))
-# count = 0
-# element = '[+]'
+    for x in list[:30]:
+        
+        print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
+        with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
+            src = file.readlines()
 
-# for x in list[:30]:
-    
-#     print(f'\nПрацюємо з цим видавництвом:  {x} \n {element * 30}\n')
-#     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
-#         src = file.readlines()
+        for index, link in enumerate(src):
+            print(f'Index: {index} Page: {link}')
+            link = link.strip()
+            info = get_source_html(link)
+            save_book_info(info)
 
-#     for index, link in enumerate(src):
-#         print(f'Index: {index} Page: {link}')
-#         link = link.strip()
-#         info = get_source_html(link)
-#         save_book_info(info)
+        source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
+        destination = f'data/yakaboo/new_parcing/test/{x}'
+        shutil.move(source, destination)
 
-#     source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
-#     destination = f'data/yakaboo/new_parcing/test/{x}'
-#     shutil.move(source, destination)
+        count += 1
+        print(count)
+        print(len(list))
 
-#     count += 1
-#     print(count)
+def main1():
+    x = 'Shkola.txt'
+    with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
+        src = file.readlines()
 
-# Навипадок збою
+    for index, link in enumerate(src[197:]):
+        print(f'Index: {index} Page: {link}')
+        link = link.strip()
+        info = get_source_html(link)
+        save_book_info(info)
 
-with open(f'data/yakaboo/new_parcing/data/book_publisher_links/Folio.txt') as file:
-    src = file.readlines()
+    source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
+    destination = f'data/yakaboo/new_parcing/test/{x}'
+    shutil.move(source, destination)
 
-for index, link in enumerate(src[6342:]):
-    print(f'Index: {index} Page: {link}')
-    link = link.strip()
-    info = get_source_html(link)
-    save_book_info(info)
+
+
+
+if __name__ == "__main__":
+    main()
