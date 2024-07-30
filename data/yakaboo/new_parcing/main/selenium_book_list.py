@@ -105,14 +105,14 @@ def main():
 
         count += 1
         print(count)
-        print(len(list))
+    print(len(list))
 
 def main1():
-    x = 'Shkola.txt'
+    x = 'Kondor.txt'
     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
         src = file.readlines()
 
-    for index, link in enumerate(src[197:]):
+    for index, link in enumerate(src[71:]):
         print(f'Index: {index} Page: {link}')
         link = link.strip()
         info = get_source_html(link)
