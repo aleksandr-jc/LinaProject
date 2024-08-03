@@ -34,7 +34,7 @@ def get_source_html(url):
         info_button.click()
         time.sleep(1)
 
-        book_name = driver.find_element(By.CSS_SELECTOR, 'h1[data-v-7f521978]').text
+        book_name = driver.find_element(By.XPATH, '//*[@id="product"]/div[1]/div/div/section[1]/div[2]/div[1]/h1').text # //*[@id="product"]/div[1]/div/div/section[1]/div[2]/div[1]/h1
                                                 
         main_content = driver.find_element(By.CLASS_NAME, 'chars')
 
@@ -55,21 +55,31 @@ def get_source_html(url):
 def save_book_info(info_list):
     # Створюємо словник для зберігання інформації
     book_info = {}
-    # Обробляємо кожен елемент списку
-
-    for item in info_list[0]:
-        # Розділяємо ключ і значення за символом нової лінії
-        key, value = item.split('\n')
-        
-        try:# Перетворюємо числові значення в відповідний формат
-            if key in ["Тираж", "Кількість сторінок", "Рік видання", "Вага"]:
-                value = int(value)
-        except:
-            value = value
-        
-        # Додаємо пару ключ-значення в словник
+    
+    try:
+        # Обробляємо кожен елемент списку
+        for item in info_list[0]:
+            try:
+                # Розділяємо ключ і значення за символом нової лінії
+                key, value = item.split('\n')
+                
+                # Перетворюємо числові значення в відповідний формат
+                if key in ["Тираж", "Кількість сторінок", "Рік видання", "Вага"]:
+                    value = int(value)
+                
+                # Додаємо пару ключ-значення в словник
+                book_info[key] = value
+            
+            except ValueError:
+                # Обробляємо випадки, коли split не працює, або int(value) не працює
+                continue
+    
+        # Додаємо назву книжки в словник
         book_info['Назва книжки'] = info_list[1]
-        book_info[key] = value
+    
+    except IndexError:
+        # Обробляємо випадок, коли info_list[0] або info_list[1] не існують
+        pass
         
     
     # Зберігаємо словник у файл у форматі JSON
@@ -108,11 +118,11 @@ def main():
     print(len(list))
 
 def main1():
-    x = 'Kondor.txt'
+    x = 'Navchal_na_kniga_Bogdan?book_publication=Bumazhnaja.txt'
     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
         src = file.readlines()
 
-    for index, link in enumerate(src[71:]):
+    for index, link in enumerate(src[4887:]):
         print(f'Index: {index} Page: {link}')
         link = link.strip()
         info = get_source_html(link)
