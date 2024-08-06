@@ -118,11 +118,11 @@ def main():
     print(len(list))
 
 def main1():
-    x = 'Navchal_na_kniga_Bogdan?book_publication=Bumazhnaja.txt'
+    x = 'Vivat.txt'
     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
         src = file.readlines()
 
-    for index, link in enumerate(src[4887:]):
+    for index, link in enumerate(src[1726:]):
         print(f'Index: {index} Page: {link}')
         link = link.strip()
         info = get_source_html(link)

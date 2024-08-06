@@ -15,7 +15,7 @@ def scroll_page(url):
     # chrome_options.add_argument("--disable-gpu")
 
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager()))
         driver.maximize_window()
         driver.get(url)
 
@@ -64,5 +64,5 @@ def scroll_page(url):
 
 # https://www.yakaboo.ua/ua/book_publisher/view/Navchal_na_kniga_Bogdan
 
-scroll_page('https://www.yakaboo.ua/ua/book_publisher/view/Navchal_na_kniga_Bogdan?book_publication=Audio&book_publication=Jelektronnaja')
+scroll_page('https://www.yakaboo.ua/ua/book_publisher/view/Yakaboo_Publishing')
 print('Finish!')
