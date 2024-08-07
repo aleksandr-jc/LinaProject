@@ -110,7 +110,7 @@ def main():
             save_book_info(info)
 
         source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
-        destination = f'data/yakaboo/new_parcing/test/{x}'
+        destination = f'data/yakaboo/new_parcing/finish_publisher/{x}'
         shutil.move(source, destination)
 
         count += 1
@@ -118,18 +118,18 @@ def main():
     print(len(list))
 
 def main1():
-    x = 'Vivat.txt'
+    x = 'Yakaboo_ua.txt'
     with open(f'data/yakaboo/new_parcing/data/book_publisher_links/{x}') as file:
         src = file.readlines()
 
-    for index, link in enumerate(src[1726:]):
+    for index, link in enumerate(src[154:]):
         print(f'Index: {index} Page: {link}')
         link = link.strip()
         info = get_source_html(link)
         save_book_info(info)
 
     source = f'data/yakaboo/new_parcing/data/book_publisher_links/{x}'
-    destination = f'data/yakaboo/new_parcing/test/{x}'
+    destination = f'data/yakaboo/new_parcing/finish_publisher/{x}'
     shutil.move(source, destination)
 
 

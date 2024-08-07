@@ -10,13 +10,13 @@ from selenium.webdriver.chrome.options import Options
 Список видавництв з ссилками на них отримуємо в файлі publisher_links.txt
 """
 def scroll_page(url):
-    # chrome_options = Options()
-    # chrome_options.add_argument("--headless")  # Запуск у headless режимі
-    # chrome_options.add_argument("--disable-gpu")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Запуск у headless режимі
+    chrome_options.add_argument("--disable-gpu")
 
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager()))
-        driver.maximize_window()
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        # driver.maximize_window()
         driver.get(url)
 
         project_urls = []
@@ -62,7 +62,8 @@ def scroll_page(url):
         driver.quit()
 
 
-# https://www.yakaboo.ua/ua/book_publisher/view/Navchal_na_kniga_Bogdan
+# https://www.yakaboo.ua/ua/book_publisher/view/Nebeskey
+# https://www.yakaboo.ua/ua/book_publisher/view/KS_Books
 
-scroll_page('https://www.yakaboo.ua/ua/book_publisher/view/Yakaboo_Publishing')
+scroll_page('https://www.yakaboo.ua/ua/book_publisher/view/Nebeskey')
 print('Finish!')
